@@ -71,7 +71,7 @@ open class StackViewController: UIViewController {
         _items.insert(item, at: index)
         let viewController = item.toViewController()
         viewControllers.insert(viewController, at: index)
-        addChildViewController(viewController)
+        addChild(viewController)
         stackViewContainer.insertContentView(viewController.view, atIndex: index, canShowSeparator: canShowSeparator)
     }
     
@@ -95,9 +95,9 @@ open class StackViewController: UIViewController {
     open func removeItemAtIndex(_ index: Int) {
         _items.remove(at: index)
         let viewController = viewControllers[index]
-        viewController.willMove(toParentViewController: nil)
+        viewController.willMove(toParent: nil)
         stackViewContainer.removeContentViewAtIndex(index)
-        viewController.removeFromParentViewController()
+        viewController.removeFromParent()
         viewControllers.remove(at: index)
     }
     
