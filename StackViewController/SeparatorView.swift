@@ -56,6 +56,7 @@ open class SeparatorView: UIView {
             switch axis {
             case .horizontal: return .height
             case .vertical: return .width
+            default: return .width
             }
         }()
         sizeConstraint = NSLayoutConstraint(
@@ -81,6 +82,8 @@ open class SeparatorView: UIView {
             switch axis {
             case .horizontal: return .minXEdge
             case .vertical: return .maxYEdge
+            default:
+                return .maxYEdge
             }
         }()
         let (_, separatorRect) = bounds.divided(atDistance: separatorInset, from: edge)

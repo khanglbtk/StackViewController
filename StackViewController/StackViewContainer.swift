@@ -13,13 +13,13 @@ import UIKit
 /// using view controller composition to display content.
 open class StackViewContainer: UIView, UIScrollViewDelegate {
     /// The scroll view that is the superview of the stack view.
-    open let scrollView: AutoScrollView
+    public let scrollView: AutoScrollView
     
     /// The stack view. It is not safe to modify the arranged subviews directly
     /// via the stack view. The content view collection accessors on
     /// `StackViewContainer` should be used instead. It is also not safe to modify
     /// the `axis` property. `StackViewContainer.axis` should be set instead.
-    open let stackView: UIStackView
+    public let stackView: UIStackView
     
     fileprivate let backgroundColorContainerView = UIView(frame: CGRect.zero)
     
@@ -63,12 +63,13 @@ open class StackViewContainer: UIView, UIScrollViewDelegate {
     /// automatically use the correct orientation based on the orientation
     /// of the stack view. The `configurator` block can be used to customize
     /// the appearance of the separator.
-    open static func createSeparatorViewFactory(_ configurator: ((SeparatorView) -> Void)? = nil) -> SeparatorViewFactory {
+    public static func createSeparatorViewFactory(_ configurator: ((SeparatorView) -> Void)? = nil) -> SeparatorViewFactory {
         return { axis in
             let separatorAxis: NSLayoutConstraint.Axis = {
                 switch axis {
                 case .horizontal: return .vertical
                 case .vertical: return .horizontal
+                default: return .horizontal
                 }
             }()
             let separatorView = SeparatorView(axis: separatorAxis)
@@ -141,6 +142,7 @@ open class StackViewContainer: UIView, UIScrollViewDelegate {
             switch axis {
             case .horizontal: return .height
             case .vertical: return .width
+            default: return .width
             }
         }()
         stackViewSizeConstraint =
@@ -243,7 +245,7 @@ open class StackViewContainer: UIView, UIScrollViewDelegate {
     }
     
     fileprivate func indexOfArrangedSubview(_ subview: UIView) -> Int {
-        if let index = stackView.arrangedSubviews.index(where: { $0 === subview }) {
+        if let index = stackView.arrangedSubviews.firstIndex(where: { $0 === subview }) {
             return index
         } else {
             fatalError("Called indexOfArrangedSubview with subview that doesn't exist in stackView.arrangedSubviews")
@@ -257,7 +259,7 @@ open class StackViewContainer: UIView, UIScrollViewDelegate {
      - parameter view: The content view to remove
      */
     open func removeContentView(_ view: UIView) {
-        guard let index = _contentViews.index(where: { $0 === view }) else { return }
+        guard let index = _contentViews.firstIndex(where: { $0 === view }) else { return }
         removeContentViewAtIndex(index)
     }
     
@@ -298,7 +300,7 @@ open class StackViewContainer: UIView, UIScrollViewDelegate {
      visibility.
      */
     open func setCanShowSeparator(_ canShowSeparator: Bool, forContentView view: UIView) {
-        guard let index = _contentViews.index(where: { $0 === view }) else { return }
+        guard let index = _contentViews.firstIndex(where: { $0 === view }) else { return }
         setCanShowSeparator(canShowSeparator, forContentViewAtIndex: index)
     }
     

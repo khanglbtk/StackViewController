@@ -83,7 +83,7 @@ open class StackViewController: UIViewController {
      */
     open func removeItem(_ item: StackViewItem) {
 
-        guard let index = _items.index(where: { $0 === item }) else { return }
+        guard let index = _items.firstIndex(where: { $0 === item }) else { return }
         removeItemAtIndex(index)
     }
     
@@ -111,7 +111,7 @@ open class StackViewController: UIViewController {
      visibility
      */
     open func setCanShowSeparator(_ canShowSeparator: Bool, forItem item: StackViewItem) {
-        guard let index = _items.index(where: { $0 === item }) else { return }
+        guard let index = _items.firstIndex(where: { $0 === item }) else { return }
         setCanShowSeparator(canShowSeparator, forItemAtIndex: index)
     }
     
